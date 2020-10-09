@@ -100,4 +100,11 @@ struct data_t *data_dup(struct data_t *data)
 */
 void data_replace(struct data_t *data, int new_size, void *new_data)
 {
+  data_destroy(data);
+  struct data_t *new_ptr = data_create2(new_size, new_data);
+
+  if (new_ptr != NULL)
+  {
+    data = realloc(new_ptr, new_size);
+  }
 }
