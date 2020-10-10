@@ -1,21 +1,28 @@
+#include <stdlib.h>
 #include "data.h"
+#include "tree-private.h"
 
-//TODO
+//DESCOBRIR O Q ESTÁ MAL E VERIFICAR
 /* Função para criar uma nova árvore tree vazia.
  * Em caso de erro retorna NULL.
  */
 struct tree_t *tree_create()
 {
+    struct tree_t *temp = (struct tree_t *)malloc(sizeof(struct tree_t));
+    temp->entry->key = NULL;
+    temp->left = temp->right = NULL;
+    return temp;
 }
 
-//TODO
+//VERIFY
 /* Função para libertar toda a memória ocupada por uma árvore.
  */
 void tree_destroy(struct tree_t *tree)
 {
+    free(tree);
 }
 
-//TODO
+//PERCEBER ERRO E VERIFICAR
 /* Função para adicionar um par chave-valor à árvore.
  * Os dados de entrada desta função deverão ser copiados, ou seja, a
  * função vai *COPIAR* a key (string) e os dados para um novo espaço de
@@ -26,9 +33,34 @@ void tree_destroy(struct tree_t *tree)
  */
 int tree_put(struct tree_t *tree, char *key, struct data_t *value)
 {
+    //erro caso seja nula
+    if (tree == NULL)
+    {
+        return 1;
+    }
+
+    //copiar chave //char pode copiar logo
+    char new_key = key;
+
+    //copiar valor
+    struct data_t *new_data = data_dup(value);
+
+    struct tree_t tree = *tree_create();
+
+    /* Otherwise, recur down the tree */
+    if (new_key < tree->entry->key)
+    {
+        tree->left = tree_put(tree->left, new_key, &new_data);
+        return 0;
+    }
+    else
+    {
+        tree->right = tree_put(tree->right, new_key, &new_data);
+        return 0;
+    }
 }
 
-//TODO
+//PERCEBER ERRO E VERIFICAR
 /* Função para obter da árvore o valor associado à chave key.
  * A função deve devolver uma cópia dos dados que terão de ser
  * libertados no contexto da função que chamou tree_get, ou seja, a
@@ -40,6 +72,16 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
  */
 struct data_t *tree_get(struct tree_t *tree, char *key)
 {
+    // Base Cases: root is null or key is present at root
+    if (tree == NULL || tree->entry->key == key)
+        return tree->entry->value;
+
+    // Key is greater than root's key
+    if (tree->entry->key < key)
+        return tree_get(tree->right, key);
+
+    // Key is smaller than root's key
+    return tree_get(tree->left, key);
 }
 
 //TODO
@@ -51,18 +93,36 @@ int tree_del(struct tree_t *tree, char *key)
 {
 }
 
-//TODO
+//VERIFICAR
 /* Função que devolve o número de elementos contidos na árvore.
  */
 int tree_size(struct tree_t *tree)
 {
+    if (tree == NULL)
+        return 0;
+    else
+        return (size(tree->left) + 1 + size(tree->right));
 }
 
-//TODO
+//VERIFICAR
 /* Função que devolve a altura da árvore.
  */
 int tree_height(struct tree_t *tree)
 {
+    if (tree == NULL)
+        return 0;
+    else
+    {
+        /* compute the depth of each subtree */
+        int lDepth = maxDepth(tree->left);
+        int rDepth = maxDepth(tree->right);
+
+        /* use the larger one */
+        if (lDepth > rDepth)
+            return (lDepth + 1);
+        else
+            return (rDepth + 1);
+    }
 }
 
 //TODO
@@ -74,9 +134,10 @@ char **tree_get_keys(struct tree_t *tree)
 {
 }
 
-//TODO
+//VERIFICAR
 /* Função que liberta toda a memória alocada por tree_get_keys().
  */
 void tree_free_keys(char **keys)
 {
+    free(keys);
 }

@@ -8,9 +8,11 @@ CC = gcc
 CFLAGS = -Wall -I $(INC_dir) -c
 cmd = $(CC) $(CFLAGS) $(SRC_dir)
 
-#out: $(OBJECTS) test_data test_entry test_tree test_serialization
-out: $(OBJETOS)
-	$(CC) $(OBJETOS) -o $(BIN_dir)out
+#out: $(OBJECTS)
+#	gcc -Wall -I include/ -o data source/data.c source/test_data.c
+# out: $(OBJETOS)
+# 	$(CC) $(OBJETOS) -o $(BIN_dir)out
+out: $(OBJECTS) test_data test_entry test_tree test_serialization
 
 data.o: $(INC_dir)data.h
 	      $(cmd)data.c -o $(OBJ_dir)data.o
