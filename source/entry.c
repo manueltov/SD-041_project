@@ -19,9 +19,12 @@ struct entry_t *entry_create(char *key, struct data_t *data){
     return NULL;
   }
 
-  e->key = (char *) malloc(sizeof(strlen(key))+1);
-  memcpy( e->key, key, strlen(key)+1);
-
+  /*e->key = (char *) malloc(sizeof(strlen(key))+1); //+1 refere-se ao "\0" da string --reserva espaço
+    memcpy( e->key, key, strlen(key)+1);
+    e->value = (struct data_t *) malloc(sizeof(struct data_t));
+    memcpy( e->value, data, sizeof(struct data_t));
+  */
+  e->key = key;
   e->value = data;
 
   return e;
@@ -90,14 +93,18 @@ void entry_replace(struct entry_t *entry, char *new_key, struct data_t *new_valu
 */
 int entry_compare(struct entry_t *entry1, struct entry_t *entry2){
     int ret;
+    int result;
+    if(strcmp(entry1->key,entry2->key) == 0 && (entry1->value == entry2->value)
+      && (entry1->value->datasize == entry2->value->datasize)) {
+      ret = memcmp(entry1->value->data, entry2->value->data, entry1->value->datasize);
 
-    ret = memcmp( entry1, entry2, sizeof(struct entry_t));
+      if(ret < 0){
+        result = -1;
+      }else if( ret>0 ){
+        result = 1;
+      }else{
+        result = 0;
+      }
 
-    if( ret < 0){ // entry1<entry2
-      return -1;
-    }else if( ret > 0){
-      return 1;
-    }else{
-      return 0;
-    }
+      }return result;
 }
