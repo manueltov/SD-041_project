@@ -9,7 +9,7 @@
 struct tree_t *tree_create()
 {
     struct tree_t *temp = (struct tree_t *)malloc(sizeof(struct tree_t));
-    temp->entry->key = NULL;
+    temp->entry.key = NULL;
     temp->left = temp->right = NULL;
     return temp;
 }
@@ -45,10 +45,15 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
     //copiar valor
     struct data_t *new_data = data_dup(value);
 
-    struct tree_t tree = *tree_create();
+    // create entry
+    struct entry_t *new_entry = entry_create(new_key, new_data);
 
     /* Otherwise, recur down the tree */
-    if (new_key < tree->entry->key)
+    if (entry_compare(new_entry, &(tree->entry)) == 0)
+    {
+        tree->entry = new_entry;
+    }
+    else if (entry_compare(new_entry, &(tree->entry)) < 0)
     {
         tree->left = tree_put(tree->left, new_key, &new_data);
         return 0;
@@ -73,11 +78,11 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
 struct data_t *tree_get(struct tree_t *tree, char *key)
 {
     // Base Cases: root is null or key is present at root
-    if (tree == NULL || tree->entry->key == key)
-        return tree->entry->value;
+    if (tree == NULL || tree->entry.key == key)
+        return tree->entry.value;
 
     // Key is greater than root's key
-    if (tree->entry->key < key)
+    if (tree->entry.key < key)
         return tree_get(tree->right, key);
 
     // Key is smaller than root's key

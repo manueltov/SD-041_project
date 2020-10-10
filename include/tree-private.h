@@ -10,12 +10,6 @@ struct tree_t
 	struct entry_t entry;
 	struct tree_t *left;
 	struct tree_t *right;
-
-	// tree_t(entry_t entry)
-	// {
-	// 	data = val;
-	// 	left = right = NULL;
-	// }
 };
 
 #endif
