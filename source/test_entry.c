@@ -1,3 +1,8 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #include "data.h"
 #include "entry.h"
 #include <stdlib.h>
@@ -5,64 +10,67 @@
 #include <string.h>
 
 /**************************************************************/
-int testCreate() {
+int testCreate()
+{
 	char *key = strdup("123abc");
-	struct data_t *value = data_create2(strlen("1234567890abc")+1, strdup("1234567890abc"));
+	struct data_t *value = data_create2(strlen("1234567890abc") + 1, strdup("1234567890abc"));
 
 	struct entry_t *entry = entry_create(key, value);
 
-	int result = (entry->key == key) && 
-                     (entry->value == value);
+	int result = (entry->key == key) && (entry->value == value);
 
 	entry_destroy(entry);
 
-	printf("entry - testCreate: %s\n",result?"passou":"não passou");
+	printf("entry - testCreate: %s\n", result ? "passou" : "não passou");
 	return result;
 }
 
 /**************************************************************/
 
-int testDup() {
+int testDup()
+{
 	int result;
 	char *key = strdup("123abc");
-	struct data_t *value = data_create2(strlen("1234567890abc")+1, strdup("1234567890abc"));
+	struct data_t *value = data_create2(strlen("1234567890abc") + 1, strdup("1234567890abc"));
 
 	struct entry_t *entry = entry_create(key, value);
 
 	struct entry_t *entry2 = entry_dup(entry);
 
 	result = entry2 != entry;
-	
+
 	result = result && (entry->key != entry2->key) &&
-		              (strcmp(entry->key,entry2->key) == 0) && 
-                        (entry->value != entry2->value) &&
-		              (entry->value->datasize == entry2->value->datasize) &&
-                        (memcmp(entry->value->data, entry2->value->data, entry->value->datasize) == 0);
+			 (strcmp(entry->key, entry2->key) == 0) &&
+			 (entry->value != entry2->value) &&
+			 (entry->value->datasize == entry2->value->datasize) &&
+			 (memcmp(entry->value->data, entry2->value->data, entry->value->datasize) == 0);
 
 	entry_destroy(entry);
 	entry_destroy(entry2);
 
-	printf("entry - testDup: %s\n",result?"passou":"não passou");
+	printf("entry - testDup: %s\n", result ? "passou" : "não passou");
 	return result;
 }
 
 /**************************************************************/
 
-int testDestroy(){
-    printf("Módulo entry -> teste entry_destroy:");
+int testDestroy()
+{
+	printf("Módulo entry -> teste entry_destroy:");
 	entry_destroy(NULL);
-    printf(" passou\n");
+	printf(" passou\n");
 	return 1;
 }
 
 /**************************************************************/
 
-int testReplace(){
+int testReplace()
+{
 	int result;
 	char *key = strdup("123abc");
 	char *new_key = strdup("123abc456");
-	struct data_t *value = data_create2(strlen("1234567890abc")+1, strdup("1234567890abc"));
-	struct data_t *new_value = data_create2(strlen("123456abc")+1, strdup("123456abc"));
+	struct data_t *value = data_create2(strlen("1234567890abc") + 1, strdup("1234567890abc"));
+	struct data_t *new_value = data_create2(strlen("123456abc") + 1, strdup("123456abc"));
 
 	struct entry_t *entry = entry_create(key, value);
 
@@ -74,22 +82,23 @@ int testReplace(){
 
 	entry_destroy(entry);
 
-	printf("entry - testReplace: %s\n",result?"passou":"não passou");
+	printf("entry - testReplace: %s\n", result ? "passou" : "não passou");
 	return result;
 }
 
 /**************************************************************/
 
-int testCompare(){
+int testCompare()
+{
 	int result;
 	char *key1 = strdup("a");
 	char *key2 = strdup("b");
 	char *key3 = strdup("f");
 	char *key4 = strdup("a");
-	struct data_t *value1 = data_create2(strlen("1234567890abc")+1, strdup("1234567890abc"));
-	struct data_t *value2 = data_create2(strlen("1234567890abc")+1, strdup("1234567890abc"));
-	struct data_t *value3 = data_create2(strlen("sabc")+1, strdup("sabc"));
-	struct data_t *value4 = data_create2(strlen("abc")+1, strdup("abc"));
+	struct data_t *value1 = data_create2(strlen("1234567890abc") + 1, strdup("1234567890abc"));
+	struct data_t *value2 = data_create2(strlen("1234567890abc") + 1, strdup("1234567890abc"));
+	struct data_t *value3 = data_create2(strlen("sabc") + 1, strdup("sabc"));
+	struct data_t *value4 = data_create2(strlen("abc") + 1, strdup("abc"));
 
 	struct entry_t *entry1 = entry_create(key1, value1);
 	struct entry_t *entry2 = entry_create(key2, value2);
@@ -110,14 +119,14 @@ int testCompare(){
 	entry_destroy(entry3);
 	entry_destroy(entry4);
 
-	printf("entry - testCompare: %s\n",result?"passou":"não passou");
+	printf("entry - testCompare: %s\n", result ? "passou" : "não passou");
 	return result;
 }
 
-
 /**************************************************************/
 
-int main() {
+int main()
+{
 	int score = 0;
 
 	printf("iniciando teste entry bin\n");
@@ -125,17 +134,17 @@ int main() {
 	score += testCreate();
 
 	score += testDup();
-	
+
 	score += testDestroy();
-	
+
 	score += testReplace();
-	
+
 	score += testCompare();
 
-	printf("teste entry bin: %d/5\n",score);
+	printf("teste entry bin: %d/5\n", score);
 
-    if (score == 5)
-        return 0;
-    else
-        return -1;
+	if (score == 5)
+		return 0;
+	else
+		return -1;
 }

@@ -1,11 +1,17 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #ifndef _DATA_H
 #define _DATA_H /* Módulo data */
 
 /* Estrutura que define os dados.
  */
-struct data_t {
+struct data_t
+{
 	int datasize; /* Tamanho do bloco de dados */
-	void *data;   /* Conteúdo arbitrário */
+	void *data;	  /* Conteúdo arbitrário */
 };
 
 /* Função que cria um novo elemento de dados data_t e reserva a memória
@@ -16,7 +22,7 @@ struct data_t *data_create(int size);
 /* Função idêntica à anterior, mas que inicializa os dados de acordo com
  * o parâmetro data.
  */
-struct data_t *data_create2(int size, void *data); 
+struct data_t *data_create2(int size, void *data);
 
 /* Função que elimina um bloco de dados, apontado pelo parâmetro data,
  * libertando toda a memória por ele ocupada.
@@ -34,4 +40,3 @@ struct data_t *data_dup(struct data_t *data);
 void data_replace(struct data_t *data, int new_size, void *new_data);
 
 #endif
-

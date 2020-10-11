@@ -1,3 +1,8 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #include "data.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -61,7 +66,7 @@ struct data_t *data_create2(int size, void *data)
   //memcpy --> copia o conteúdo de uma zona de memória para outra:
   // Ou seja, copia (size) bytes do apontador *data para o apontador ptr(que aponta para data)
 
-  memcpy(ptr->data, data, size);
+  ptr->data = data;
   ptr->datasize = size;
 
   return ptr;
@@ -88,10 +93,11 @@ void data_destroy(struct data_t *data)
  */
 struct data_t *data_dup(struct data_t *data)
 {
-
   if (data != NULL)
   {
-    return (data_create2(data->datasize, data->data));
+    struct data_t *new_data = data_create(data->datasize);
+    memcpy(new_data->data, data->data, data->datasize);
+    return new_data;
   }
   return NULL;
 }

@@ -1,3 +1,8 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #include "data.h"
 #include "tree-private.h"
 #include "entry.h"
@@ -5,9 +10,11 @@
 #include <stdio.h>
 
 //Cria nó vazio
-struct treeNode *create_node(){
-  struct treeNode *node = (struct treeNode *) malloc(sizeof(struct treeNode));
-  if( node == NULL || node->entry == NULL){
+struct treeNode *create_node()
+{
+  struct treeNode *node = (struct treeNode *)malloc(sizeof(struct treeNode));
+  if (node == NULL || node->entry == NULL)
+  {
     return NULL;
   }
   node->entry = NULL;
@@ -19,11 +26,13 @@ struct treeNode *create_node(){
 /* Função para criar uma nova árvore tree vazia.
  * Em caso de erro retorna NULL.
  */
-struct tree_t *tree_create(){
+struct tree_t *tree_create()
+{
 
-  struct tree_t *tree = (struct tree_t *) malloc(sizeof(struct tree_t));
+  struct tree_t *tree = (struct tree_t *)malloc(sizeof(struct tree_t));
 
-  if( tree == NULL || tree->root == NULL){
+  if (tree == NULL || tree->root == NULL)
+  {
     return NULL;
   }
   tree->root = create_node();
@@ -33,23 +42,30 @@ struct tree_t *tree_create(){
   return tree;
 }
 
-struct treeNode *destroy_node(struct treeNode *node){
-  if( node != NULL){
-    if( node->entry != NULL){
-        entry_destroy(node->entry);
+struct treeNode *destroy_node(struct treeNode *node)
+{
+  if (node != NULL)
+  {
+    if (node->entry != NULL)
+    {
+      entry_destroy(node->entry);
     }
   }
 }
 
 /* Função para libertar toda a memória ocupada por uma árvore.
  */
-void tree_destroy(struct tree_t *tree){
+void tree_destroy(struct tree_t *tree)
+{
 
-  if( tree != NULL ){
-    if( tree->root->left != NULL){
+  if (tree != NULL)
+  {
+    if (tree->root->left != NULL)
+    {
       destroy_node(tree->root->left);
     }
-    if(tree->root->right != NULL){
+    if (tree->root->right != NULL)
+    {
       destroy_node(tree->root->right);
     }
     destroy_node(tree->root);
@@ -64,14 +80,13 @@ void tree_destroy(struct tree_t *tree){
  * a necessária gestão da memória para armazenar os novos dados.
  * Retorna 0 (ok) ou -1 em caso de erro.
  */
-int tree_put(struct tree_t *tree, char *key, struct data_t *value){
+int tree_put(struct tree_t *tree, char *key, struct data_t *value)
+{
 
-  if( tree == NULL || key == NULL || value == NULL){
+  if (tree == NULL || key == NULL || value == NULL)
+  {
     return -1;
   }
-
-
-
 }
 
 /* Função para obter da árvore o valor associado à chave key.
@@ -83,7 +98,8 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value){
  * a função.
  * Devolve NULL em caso de erro.
  */
-struct data_t *tree_get(struct tree_t *tree, char *key){
+struct data_t *tree_get(struct tree_t *tree, char *key)
+{
   /*// Base Cases: root is null or key is present at root
   if (tree == NULL || tree->root->entry->key == key)
       return tree->root->entry->value;
@@ -101,39 +117,46 @@ struct data_t *tree_get(struct tree_t *tree, char *key){
  * libertando toda a memória alocada na respetiva operação tree_put.
  * Retorna 0 (ok) ou -1 (key not found).
  */
-int tree_del(struct tree_t *tree, char *key){
-
+int tree_del(struct tree_t *tree, char *key)
+{
 }
 
 /* Função que devolve o número de elementos contidos na árvore.
  */
-int tree_size(struct tree_t *tree){
-  if(tree == NULL || tree->root == NULL){
+int tree_size(struct tree_t *tree)
+{
+  if (tree == NULL || tree->root == NULL)
+  {
     return 0;
   }
   return tree->size;
 }
 
 //Devolve a altura máxima
-int tree_maxHeigth(struct treeNode *node){
-  if(node == NULL)
-      return 0;
-  else{
+int tree_maxHeigth(struct treeNode *node)
+{
+  if (node == NULL)
+    return 0;
+  else
+  {
 
     //profundidade de cada subtree
     int l_heigth = tree_maxHeigth(node->left);
     int r_heigth = tree_maxHeigth(node->right);
 
-    if( l_heigth > r_heigth)
-        return (l_heigth+1);
-    else return (r_heigth+1);
-    }
+    if (l_heigth > r_heigth)
+      return (l_heigth + 1);
+    else
+      return (r_heigth + 1);
+  }
 }
 
 /* Função que devolve a altura da árvore.
  */
-int tree_height(struct tree_t *tree){
-  if( tree == NULL || tree->root == NULL){
+int tree_height(struct tree_t *tree)
+{
+  if (tree == NULL || tree->root == NULL)
+  {
     return 0;
   }
   return tree_maxHeigth(tree->root);
@@ -143,12 +166,12 @@ int tree_height(struct tree_t *tree){
  * árvore, colocando o último elemento do array com o valor NULL e
  * reservando toda a memória necessária.
  */
-char **tree_get_keys(struct tree_t *tree){
-
+char **tree_get_keys(struct tree_t *tree)
+{
 }
 
 /* Função que liberta toda a memória alocada por tree_get_keys().
  */
-void tree_free_keys(char **keys){
-
+void tree_free_keys(char **keys)
+{
 }

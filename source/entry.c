@@ -1,3 +1,8 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -101,30 +106,27 @@ void entry_replace(struct entry_t *entry, char *new_key, struct data_t *new_valu
     entry = realloc(new_entry, strlen(new_key) + 1);
   }
 }
+
 /* Função que compara duas entradas e retorna a ordem das mesmas.
 *  Ordem das entradas é definida pela ordem das suas chaves.
 *  A função devolve 0 se forem iguais, -1 se entry1<entry2, e 1 caso contrário.
 */
 int entry_compare(struct entry_t *entry1, struct entry_t *entry2)
 {
-  int ret;
+  int ret = strcmp(entry1->key, entry2->key);
   int result;
-  if (strcmp(entry1->key, entry2->key) == 0 && (entry1->value == entry2->value) && (entry1->value->datasize == entry2->value->datasize))
-  {
-    ret = memcmp(entry1->value->data, entry2->value->data, entry1->value->datasize);
 
-    if (ret < 0)
-    {
-      result = -1;
-    }
-    else if (ret > 0)
-    {
-      result = 1;
-    }
-    else
-    {
-      result = 0;
-    }
+  if (ret < 0)
+  {
+    result = -1;
+  }
+  else if (ret > 0)
+  {
+    result = 1;
+  }
+  else
+  {
+    result = 0;
   }
   return result;
 }
