@@ -7,7 +7,7 @@
 
 struct tree_t
 {
-	struct entry_t entry;
+	struct entry_t *entry;
 	struct tree_t *left;
 	struct tree_t *right;
 };
