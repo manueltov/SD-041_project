@@ -44,6 +44,10 @@ test_data: test_data.o
 	$(CC) -Wall -I include/ -o $(BIN_dir)test_data $(SRC_dir)data.c $(SRC_dir)test_data.c
 	$(BIN_dir)test_data
 
+test_data_debug: test_data.o
+	$(CC) -g -Wall -I include/ -o $(BIN_dir)test_data_debug $(SRC_dir)data.c $(SRC_dir)test_data.c
+	$(BIN_dir)test_data_debug
+
 test_entry: test_entry.o
 	$(CC) -Wall -I include/ -o $(BIN_dir)test_entry $(SRC_dir)entry.c $(SRC_dir)data.c $(SRC_dir)test_entry.c
 	$(BIN_dir)test_entry

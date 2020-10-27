@@ -90,7 +90,7 @@ int testCreate3()
 	char *data_p = malloc(data_size);
 	strcpy(data_p, data_s);
 
-	printf("Módulo data -> teste data_create2:");
+	printf("Módulo data -> teste data_create3:");
 
 	assert(data_create2(-1, data_p) == NULL);
 	result = (data_create2(-1, data_p) == NULL);
@@ -106,8 +106,7 @@ int testCreate3()
 
 	result = result && (data->data == data_p);
 
-	result = result &&
-			 ((strcmp(data->data, data_p) == 0) && (data->datasize == data_size));
+	result = result && ((strcmp(data->data, data_p) == 0) && (data->datasize == data_size));
 
 	data_destroy(data);
 
@@ -129,7 +128,6 @@ int testDup()
 
 	assert(data_dup(NULL) == NULL);
 	result = (data_dup(NULL) == NULL);
-
 	if ((data = data_create(1)) == NULL)
 		pee("  O teste não pode prosseguir");
 
@@ -137,7 +135,6 @@ int testDup()
 
 	assert(data_dup(data) == NULL);
 	result = result && (data_dup(data) == NULL);
-
 	free(data->data);
 
 	data->data = NULL;

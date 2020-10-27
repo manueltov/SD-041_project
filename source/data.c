@@ -50,7 +50,6 @@ struct data_t *data_create(int size)
  */
 struct data_t *data_create2(int size, void *data)
 {
-
   if (size <= 0 || data == NULL)
   {
     return NULL;
@@ -93,11 +92,15 @@ void data_destroy(struct data_t *data)
  */
 struct data_t *data_dup(struct data_t *data)
 {
-  if (data != NULL)
+  if (data != NULL && data->datasize > 1)
   {
     struct data_t *new_data = data_create(data->datasize);
     memcpy(new_data->data, data->data, data->datasize);
     return new_data;
+
+    // void *new_data;
+    // memccpy(new_data, data->data, data->datasize, data->datasize);
+    // return data_create2(data->datasize, new_data);
   }
   return NULL;
 }
