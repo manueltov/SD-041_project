@@ -36,18 +36,21 @@ int testPutInexistente()
 	char *key[1024];
 	struct data_t *data[1024], *d;
 
+	//data [struct data_t,struct data_t,struct data_t,...,struct data_t]
+	//d = null
+
 	for (i = 0; i < 1024; i++)
 	{
 		key[i] = (char *)malloc(16 * sizeof(char));
 		sprintf(key[i], "a/key/b-%d", i);
 		data[i] = data_create2(strlen(key[i]) + 1, strdup(key[i]));
-
 		tree_put(tree, key[i], data[i]);
 	}
-
+	printf("aaaaa");
 	assert(tree_size(tree) == 1024);
+	printf("size tem %d\n", tree_size(tree));
 	result = (tree_size(tree) == 1024);
-
+	printf("aqui\n");
 	for (i = 0; i < 1024; i++)
 	{
 		d = tree_get(tree, key[i]);
@@ -276,7 +279,6 @@ int main()
 	score += testDelExistente();
 
 	score += testGetKeys();
-
 	printf("teste tree bin: %d/6\n", score);
 
 	if (score == 6)

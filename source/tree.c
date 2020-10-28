@@ -2,6 +2,7 @@
 #include "data.h"
 #include "entry.h"
 #include "tree-private.h"
+#include <stdio.h>
 
 //DESCOBRIR O Q ESTÁ MAL E VERIFICAR
 /* Função para criar uma nova árvore tree vazia.
@@ -10,10 +11,11 @@
 struct tree_t *tree_create()
 {
     struct tree_t *temp = (struct tree_t *)malloc(sizeof(struct tree_t));
-
-    temp->entry->key = NULL;
-    temp->left = temp->right = NULL;
-    return temp;
+    if (temp != NULL)
+    {
+        return temp;
+    }
+    return NULL;
 }
 
 //VERIFY
@@ -21,7 +23,9 @@ struct tree_t *tree_create()
  */
 void tree_destroy(struct tree_t *tree)
 {
+    /*
     free(tree);
+    */
 }
 
 //VERIFICAR
@@ -36,49 +40,55 @@ void tree_destroy(struct tree_t *tree)
 int tree_put(struct tree_t *tree, char *key, struct data_t *value)
 {
     //erro caso seja nula
-    if (tree == NULL)
+    if (tree == NULL || key == NULL || value == NULL)
     {
         return -1;
     }
-
-    if (key == tree->entry->key)
+    if (tree->entry != NULL)
     {
-        entry_replace(tree->entry, key, value);
-        return 0;
-    }
-    else if (key < tree->entry->key)
-    {
-        if (tree->left != NULL)
+        if (key == tree->entry->key)
         {
-            tree_put(tree->left, key, value);
+            entry_replace(tree->entry, key, value);
+            return 0;
+        }
+        else if (key < tree->entry->key)
+        {
+            if (tree->left != NULL)
+            {
+                tree_put(tree->left, key, value);
+            }
+            else
+            {
+                struct tree_t *temp = tree_create();
+                temp->entry = entry_create(key, value);
+                temp->right = NULL;
+                temp->left = NULL;
+
+                tree->left = temp;
+                return 0;
+            }
         }
         else
         {
-            struct tree_t *temp = tree_create();
-            temp->entry->key = key;
-            temp->right = NULL;
-            temp->left = NULL;
+            if (tree->right != NULL)
+            {
+                tree_put(tree->right, key, value);
+            }
+            else
+            {
+                struct tree_t *temp = tree_create();
+                temp->entry = entry_create(key, value);
+                temp->right = NULL;
+                temp->left = NULL;
 
-            tree->left = temp;
-            return 0;
+                tree->right = temp;
+                return 0;
+            }
         }
     }
     else
     {
-        if (tree->right != NULL)
-        {
-            tree_put(tree->right, key, value);
-        }
-        else
-        {
-            struct tree_t *temp = tree_create();
-            temp->entry->key = key;
-            temp->right = NULL;
-            temp->left = NULL;
-
-            tree->right = temp;
-            return 0;
-        }
+        tree->entry = entry_create(key, value);
     }
     return -1;
 }
@@ -95,6 +105,7 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
  */
 struct data_t *tree_get(struct tree_t *tree, char *key)
 {
+    /*
     // Base Cases: root is null or key is present at root
     if (tree == NULL || tree->entry->key == key)
         return tree->entry->value;
@@ -105,6 +116,8 @@ struct data_t *tree_get(struct tree_t *tree, char *key)
 
     // Key is smaller than root's key
     return tree_get(tree->left, key);
+    */
+    return NULL;
 }
 
 //TODO
@@ -114,6 +127,7 @@ struct data_t *tree_get(struct tree_t *tree, char *key)
  */
 int tree_del(struct tree_t *tree, char *key)
 {
+    /*
     if (tree == NULL)
         return -1;
 
@@ -162,6 +176,8 @@ int tree_del(struct tree_t *tree, char *key)
         free(succ);
         return 0;
     }
+    */
+    return -1;
 }
 
 //VERIFICAR
@@ -169,10 +185,10 @@ int tree_del(struct tree_t *tree, char *key)
  */
 int tree_size(struct tree_t *tree)
 {
-    if (tree == NULL)
+    //struct entry_t *temp = tree->entry;
+    if (tree->entry == NULL)
         return 0;
-    else
-        return (tree_size(tree->left) + 1 + tree_size(tree->right));
+    return (tree_size(tree->left) + 1 + tree_size(tree->right));
 }
 
 //VERIFICAR
@@ -180,20 +196,21 @@ int tree_size(struct tree_t *tree)
  */
 int tree_height(struct tree_t *tree)
 {
-    if (tree == NULL)
-        return 0;
-    else
-    {
-        /* compute the depth of each subtree */
-        int lDepth = tree_height(tree->left);
-        int rDepth = tree_height(tree->right);
+    // if (tree == NULL)
+    //     return 0;
+    // else
+    // {
+    //     /* compute the depth of each subtree */
+    //     int lDepth = tree_height(tree->left);
+    //     int rDepth = tree_height(tree->right);
 
-        /* use the larger one */
-        if (lDepth > rDepth)
-            return (lDepth + 1);
-        else
-            return (rDepth + 1);
-    }
+    //     /* use the larger one */
+    //     if (lDepth > rDepth)
+    //         return (lDepth + 1);
+    //     else
+    //         return (rDepth + 1);
+    // }
+    return -1;
 }
 
 /* Função que devolve um array de char* com a cópia de todas as keys da
@@ -203,6 +220,7 @@ int tree_height(struct tree_t *tree)
 char **tree_get_keys(struct tree_t *tree)
 {
     //
+    return NULL;
 }
 
 //VERIFICAR
@@ -210,5 +228,7 @@ char **tree_get_keys(struct tree_t *tree)
  */
 void tree_free_keys(char **keys)
 {
+    /*
     free(keys);
+    */
 }

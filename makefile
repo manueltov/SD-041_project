@@ -44,10 +44,6 @@ test_data: test_data.o
 	$(CC) -Wall -I include/ -o $(BIN_dir)test_data $(SRC_dir)data.c $(SRC_dir)test_data.c
 	$(BIN_dir)test_data
 
-test_data_debug: test_data.o
-	$(CC) -g -Wall -I include/ -o $(BIN_dir)test_data_debug $(SRC_dir)data.c $(SRC_dir)test_data.c
-	$(BIN_dir)test_data_debug
-
 test_entry: test_entry.o
 	$(CC) -Wall -I include/ -o $(BIN_dir)test_entry $(SRC_dir)entry.c $(SRC_dir)data.c $(SRC_dir)test_entry.c
 	$(BIN_dir)test_entry
@@ -57,7 +53,7 @@ test_serialization: test_serialization.o
 	$(BIN_dir)test_serialization
 
 test_tree: test_tree.o
-	$(CC) -Wall -I include/ -o $(BIN_dir)test_tree $(SRC_dir)tree.c $(SRC_dir)test_tree.c
+	$(CC) -Wall -I include/ -o $(BIN_dir)test_tree $(SRC_dir)tree.c $(SRC_dir)test_tree.c  $(SRC_dir)data.c $(SRC_dir)entry.c
 	$(BIN_dir)test_tree
 
 test_all: test_data test_entry test_serialization test_tree
