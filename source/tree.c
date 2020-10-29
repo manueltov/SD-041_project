@@ -142,7 +142,6 @@ struct data_t *tree_get(struct tree_t *tree, char *key)
  */
 int tree_del(struct tree_t *tree, char *key)
 {
-    /*
     if (tree == NULL)
         return -1;
 
@@ -191,7 +190,6 @@ int tree_del(struct tree_t *tree, char *key)
         free(succ);
         return 0;
     }
-    */
     return -1;
 }
 
@@ -212,30 +210,30 @@ int tree_size(struct tree_t *tree)
  */
 int tree_height(struct tree_t *tree)
 {
-    // if (tree == NULL)
-    //     return 0;
-    // else
-    // {
-    //     /* compute the depth of each subtree */
-    //     int lDepth = tree_height(tree->left);
-    //     int rDepth = tree_height(tree->right);
+    if (tree == NULL)
+        return 0;
+    else
+    {
+        /* compute the depth of each subtree */
+        int lDepth = tree_height(tree->left);
+        int rDepth = tree_height(tree->right);
 
-    //     /* use the larger one */
-    //     if (lDepth > rDepth)
-    //         return (lDepth + 1);
-    //     else
-    //         return (rDepth + 1);
-    // }
+        /* use the larger one */
+        if (lDepth > rDepth)
+            return (lDepth + 1);
+        else
+            return (rDepth + 1);
+    }
     return -1;
 }
 
+//TODO
 /* Função que devolve um array de char* com a cópia de todas as keys da
  * árvore, colocando o último elemento do array com o valor NULL e
  * reservando toda a memória necessária.
  */
 char **tree_get_keys(struct tree_t *tree)
 {
-    //
     return NULL;
 }
 
@@ -244,7 +242,5 @@ char **tree_get_keys(struct tree_t *tree)
  */
 void tree_free_keys(char **keys)
 {
-    /*
     free(keys);
-    */
 }
