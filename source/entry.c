@@ -97,7 +97,6 @@ struct entry_t *entry_dup(struct entry_t *entry)
 */
 void entry_replace(struct entry_t *entry, char *new_key, struct data_t *new_value)
 {
-
   entry_destroy(entry);
   struct entry_t *new_entry = entry_create(new_key, new_value);
 

@@ -57,16 +57,16 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
 
     if (tree->entry != NULL)
     {
-        if (key == tree->entry->key)
+        if (new_key == tree->entry->key)
         {
             entry_replace(tree->entry, new_key, new_value);
             return 0;
         }
-        else if (key < tree->entry->key)
+        else if (new_key < tree->entry->key)
         {
             if (tree->left != NULL)
             {
-                tree_put(tree->left, key, value);
+                tree_put(tree->left, new_key, new_value);
             }
             else
             {
@@ -83,7 +83,7 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
         {
             if (tree->right != NULL)
             {
-                tree_put(tree->right, key, value);
+                tree_put(tree->right, new_key, new_value);
             }
             else
             {
@@ -99,7 +99,6 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
     }
     else
     {
-        entry_destroy(tree->entry);
         tree->entry = entry_create(new_key, new_value);
     }
     return -1;
