@@ -1,0 +1,32 @@
+OBJECTS = data.o entry.o tree.o network_client.o network_server.o
+OBJ_dir = object/
+BIN_dir = binary/
+INC_dir = include/
+SRC_dir = source/
+
+CC = gcc
+CFLAGS = -Wall -I $(INC_dir) -c
+cmd = $(CC) $(CFLAGS) $(SRC_dir)
+
+tree_client.o:$(INC_dir)data.h $(INC_dir)entry.h $(INC_dir)tree.h $(INC_dir)sdmessage.pb-c.h
+							$(INC_dir)client_stub.h $(INC_dir)client_stub-private.h $(INC_dir)network_client.h
+								$(cmd)tree_client.c -o $(OBJ_dir)tree_client.o
+
+tree_client:$(OBJ_dir)tree_client.o $(OBJ_dir)data.o $(OBJ_dir)entry.o $(OBJ_dir)tree.o
+	 					$(OBJ_dir)sdmessage.pb-c.h $(OBJ_dir)client_stub.o $(OBJ_dir)network_client.o
+							$(CC) $(OBJ_dir)tree_client.o $(OBJ_dir)data.o $(OBJ_dir)entry.o $(OBJ_dir)tree.o
+							$(OBJ_dir)client_stub.o $(OBJ_dir)network_client.o -o $(BIN_dir)tree_client
+
+tree_server.o:$(INC_dir)tree_server.o $(INC_dir)data.h $(INC_dir)entry.h $(INC_dir)tree.h
+	 						$(INC_dir)tree_skel.h $(INC_dir)sdmessage.pb-c.h $(INC_dir)network_client.h $(INC_dir)client_stub.h
+							 $(cmd)tree_server.c -o $(OBJ_dir)tree_server.o
+
+tree_server:$(OBJ_dir)tree_server.o $(OBJ_dir)data.o $(OBJ_dir)entry.o $(OBJ_dir)tree.o
+	 					$(OBJ_dir)tree_skel.o $(OBJ_dir)sdmessage.pb-c.o $(OBJ_dir)network_client.o $(OBJ_dir)client_stub.o
+							$(CC) -pthread $(OBJ_dir)tree_server.o $(OBJ_dir)data.o $(OBJ_dir)entry.o	$(OBJ_dir)tree.o
+							$(OBJ_dir)tree_skel.o $(OBJ_dir)sdmessage.pb-c.o $(OBJ_dir)network_client.o
+						 	$(OBJ_dir)client_stub.o -o $(BIN_dir)tree_server
+
+clean:
+	    rm -f $(OBJ_dir)*.o
+			rm -f $(BIN_dir)*

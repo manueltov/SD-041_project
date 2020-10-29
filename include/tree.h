@@ -1,3 +1,8 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #ifndef _TREE_H
 #define _TREE_H /* Módulo tree */
 
