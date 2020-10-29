@@ -76,14 +76,11 @@ struct data_t *data_create2(int size, void *data)
  */
 void data_destroy(struct data_t *data)
 {
-
   if (data != NULL)
   {
     if (data->data != NULL)
-    {
       free(data->data);
-      free(data); //liberta a memoria alocada em *data
-    }
+    free(data); //liberta a memoria alocada em *data
   }
 }
 

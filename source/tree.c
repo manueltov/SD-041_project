@@ -1,8 +1,9 @@
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "data.h"
 #include "entry.h"
 #include "tree-private.h"
-#include <stdio.h>
 
 //DESCOBRIR O Q ESTÁ MAL E VERIFICAR
 /* Função para criar uma nova árvore tree vazia.
@@ -23,9 +24,12 @@ struct tree_t *tree_create()
  */
 void tree_destroy(struct tree_t *tree)
 {
-    /*
-    free(tree);
-    */
+    if (tree != NULL)
+    {
+        entry_destroy(tree->entry);
+        tree_destroy(tree->left);
+        tree_destroy(tree->right);
+    }
 }
 
 //VERIFICAR
@@ -40,15 +44,22 @@ void tree_destroy(struct tree_t *tree)
 int tree_put(struct tree_t *tree, char *key, struct data_t *value)
 {
     //erro caso seja nula
-    if (tree == NULL || key == NULL || value == NULL)
-    {
+    if (tree == NULL || key == NULL)
         return -1;
-    }
+
+    //Criar uma cópia de key
+    //int length = sizeof(key) / sizeof(char);
+    char new_key[strlen(key) + 1];
+    strncpy(new_key, key, strlen(key) + 1);
+
+    //Criar uma cópia de value
+    struct data_t *new_value = data_dup(value);
+
     if (tree->entry != NULL)
     {
         if (key == tree->entry->key)
         {
-            entry_replace(tree->entry, key, value);
+            entry_replace(tree->entry, new_key, new_value);
             return 0;
         }
         else if (key < tree->entry->key)
@@ -60,7 +71,7 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
             else
             {
                 struct tree_t *temp = tree_create();
-                temp->entry = entry_create(key, value);
+                temp->entry = entry_create(new_key, new_value);
                 temp->right = NULL;
                 temp->left = NULL;
 
@@ -77,7 +88,7 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
             else
             {
                 struct tree_t *temp = tree_create();
-                temp->entry = entry_create(key, value);
+                temp->entry = entry_create(new_key, new_value);
                 temp->right = NULL;
                 temp->left = NULL;
 
@@ -88,7 +99,8 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
     }
     else
     {
-        tree->entry = entry_create(key, value);
+        entry_destroy(tree->entry);
+        tree->entry = entry_create(new_key, new_value);
     }
     return -1;
 }
@@ -105,18 +117,22 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
  */
 struct data_t *tree_get(struct tree_t *tree, char *key)
 {
-    /*
-    // Base Cases: root is null or key is present at root
-    if (tree == NULL || tree->entry->key == key)
+    if (tree == NULL || tree->entry == NULL || key == NULL)
+        return NULL;
+
+    // Base Cases: key is present at root
+    if (tree->entry->key == key)
         return tree->entry->value;
 
     // Key is greater than root's key
     if (tree->entry->key < key)
         return tree_get(tree->right, key);
+    else
+    {
+        // Key is smaller than root's key
+        return tree_get(tree->left, key);
+    }
 
-    // Key is smaller than root's key
-    return tree_get(tree->left, key);
-    */
     return NULL;
 }
 
@@ -185,7 +201,8 @@ int tree_del(struct tree_t *tree, char *key)
  */
 int tree_size(struct tree_t *tree)
 {
-    //struct entry_t *temp = tree->entry;
+    if (tree == NULL)
+        return 0;
     if (tree->entry == NULL)
         return 0;
     return (tree_size(tree->left) + 1 + tree_size(tree->right));

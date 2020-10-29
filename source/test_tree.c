@@ -46,25 +46,37 @@ int testPutInexistente()
 		data[i] = data_create2(strlen(key[i]) + 1, strdup(key[i]));
 		tree_put(tree, key[i], data[i]);
 	}
-	printf("aaaaa");
 	assert(tree_size(tree) == 1024);
-	printf("size tem %d\n", tree_size(tree));
 	result = (tree_size(tree) == 1024);
-	printf("aqui\n");
+	printf("result: %d\n", result);
+
 	for (i = 0; i < 1024; i++)
 	{
+		printf("aaaaa\n");
 		d = tree_get(tree, key[i]);
-
+		printf("11111\n");
 		assert(d->datasize == data[i]->datasize);
+		printf("22222\n");
 		assert(memcmp(d->data, data[i]->data, d->datasize) == 0);
+		printf("33333\n");
 		assert(d->data != data[i]->data);
-
-		result = result && (d->datasize == data[i]->datasize &&
-							memcmp(d->data, data[i]->data, d->datasize) == 0 &&
-							d->data != data[i]->data);
+		printf("44444\n");
+		// result = result && (d->datasize == data[i]->datasize &&
+		// 					memcmp(d->data, data[i]->data, d->datasize) == 0 &&
+		// 					d->data != data[i]->data);
+		printf("55555\n");
+		int c = d->data != data[i]->data;
+		printf("c: %d\n", c);
+		int b = memcmp(d->data, data[i]->data, d->datasize) == 0 && c;
+		// printf("b: %d\n", b);
+		int a = (d->datasize == data[i]->datasize && b);
+		// printf("a: %d\n", a);
+		result = result && a;
+		// printf("interior result: %d\n", result);
 		data_destroy(d);
 	}
 
+	printf("result: %d\n", result);
 	for (i = 0; i < 1024; i++)
 	{
 		free(key[i]);

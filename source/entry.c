@@ -61,10 +61,10 @@ void entry_destroy(struct entry_t *entry)
   if (entry != NULL)
   {
     if (entry->value != NULL)
-    {
-      free(entry->value);
-      free(entry);
-    }
+      data_destroy(entry->value);
+    if (entry->key != NULL)
+      free(entry->key);
+    free(entry);
   }
 }
 
