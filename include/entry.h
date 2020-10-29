@@ -1,8 +1,3 @@
-// SD-041
-// João Figueiredo, nº 53524
-// Manuel Tovar, nº 49522
-// Mariana Bento, nº 53676
-
 #ifndef _ENTRY_H
 #define _ENTRY_H /* Módulo entry */
 
@@ -10,9 +5,8 @@
 
 /* Esta estrutura define o par {chave, valor} para a tabela
  */
-struct entry_t
-{
-	char *key;			  /* string, cadeia de caracteres terminada por '\0' */
+struct entry_t {
+	char *key;	/* string, cadeia de caracteres terminada por '\0' */
 	struct data_t *value; /* Bloco de dados */
 };
 
@@ -47,3 +41,4 @@ void entry_replace(struct entry_t *entry, char *new_key, struct data_t *new_valu
 int entry_compare(struct entry_t *entry1, struct entry_t *entry2);
 
 #endif
+
