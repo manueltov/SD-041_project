@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 message message_t
  {
         enum Opcode {
@@ -23,6 +24,8 @@ message message_t
                 CT_NONE   = 60;
         }
         C_type c_type = 2;
+
+        string key = 5; //adicionado
 
         sint32 data_size = 3;
 

@@ -1,3 +1,5 @@
+#include "client_stub.h"
+#include "sdmessage.pb-c.h"
 /* Esta função deve:
  * - Obter o endereço do servidor (struct sockaddr_in) a base da
  *   informação guardada na estrutura rtree;
@@ -27,5 +29,5 @@ struct message_t *network_send_receive(struct rtree_t * rtree,
  * network_connect().
  */
 int network_close(struct rtree_t * rtree){
-  
+
 }
