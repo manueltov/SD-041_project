@@ -1,7 +1,26 @@
 #include "message_private.h"
+#include "sdmessage.pb-c.h"
+#include "data.h"
+#include "tree.h"
 #include <errno.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+
+void destroy_sentMsg(struct message_t *msg){
+  if( msg != NULL){
+    free(msg->message);
+  }
+  free(msg);
+}
+
+//Free all memory of de-serialized message
+void destroy_rcvMsg(struct message_t *msg){
+  if( msg != NULL){
+    message_t__free_unpacked( msg->message, NULL);
+  }
+  free(msg);
+}
 
 /*A função write não nos garante que consiga escrever a totalidade de bytes
 que estamos a pedir. Portanto, criamos a write_all para garantir isso.

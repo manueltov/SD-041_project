@@ -27,6 +27,8 @@ message message_t
 
         string key = 5; //adicionado
 
+        repeated string keys = 6; //adicionado
+
         sint32 data_size = 3;
 
         string data = 4;

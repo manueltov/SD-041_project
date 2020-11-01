@@ -49,13 +49,21 @@ struct  _MessageT
   ProtobufCMessage base;
   MessageT__Opcode opcode;
   MessageT__CType c_type;
+  /*
+   *adicionado
+   */
   char *key;
+  /*
+   *adicionado
+   */
+  size_t n_keys;
+  char **keys;
   int32_t data_size;
   char *data;
 };
 #define MESSAGE_T__INIT \
  { PROTOBUF_C_MESSAGE_INIT (&message_t__descriptor) \
-    , MESSAGE_T__OPCODE__OP_BAD, MESSAGE_T__C_TYPE__CT_BAD, (char *)protobuf_c_empty_string, 0, (char *)protobuf_c_empty_string }
+    , MESSAGE_T__OPCODE__OP_BAD, MESSAGE_T__C_TYPE__CT_BAD, (char *)protobuf_c_empty_string, 0,NULL, 0, (char *)protobuf_c_empty_string }
 
 
 /* MessageT methods */
