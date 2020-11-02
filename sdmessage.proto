@@ -1,4 +1,10 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 syntax = "proto3";
+
 message message_t
  {
         enum Opcode {
@@ -23,6 +29,10 @@ message message_t
                 CT_NONE   = 60;
         }
         C_type c_type = 2;
+
+        string key = 5; //adicionado
+
+        repeated string keys = 6; //adicionado
 
         sint32 data_size = 3;
 

@@ -3,8 +3,11 @@
 
 #include "data.h"
 #include "entry.h"
+#include <netinet/in.h>
 
 struct rtree_t{
+  struct sockaddr_in server_addr;
+  int sockfd;
 
 };
 

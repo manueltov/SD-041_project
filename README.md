@@ -6,11 +6,10 @@ SD-041_project
 
 # Mariana Bento, nº 53676
 
-Para correr chamar o 'make'
-Para testar o data.c chamar 'make test_data.c'
-Para testar o entry.c chamar 'make test_entry.c'
-Para testar o tree.c chamar 'make test_tree.c'
-Para testar o serialization.c chamar 'make test_serialization.c'
+Para correr chamar o 'make'.
+Para compilar o ficheiro sdmessage.proto chamar o "make protoc".
+
 
 OBSERVAÇÕES:
--> Não conseguimos fazer todas as funções, o que faz com que apenas alguns testes consigam passar.
+-> Não conseguimos terminar os ficheiros relativos ao cliente nem ao servidor.
+-> No entanto, conseguimos melhorar o nosso data.c (que agora passa em todos os testes com sucesso) e no tree.c também fizemos algumas melhorias.
