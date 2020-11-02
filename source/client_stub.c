@@ -1,8 +1,13 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #include "data.h"
 #include "entry.h"
 #include "message_private.h"
 #include "sdmessage.pb-c.h"
-#include "client_stub-private.h"
+#include "client_stub_private.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -45,10 +50,10 @@ struct rtree_t *rtree_connect(const char *address_port){
   }
 
   //preenche a estrutura rtree para estabelecer conexao
-  rtree->server_addr.sin_family = AF_INET;
-  rtree->server_addr.sin_port = htons(atoi(port)); //atoi convert string to integer;
+  rtree->server_addr->sin_family = AF_INET;
+  rtree->server_addr->sin_port = htons(atoi(port)); //atoi convert string to integer;
 
-  if(inet_pton( AF_INET, hostname, &rtree->server_addr.sin_addr) == 0 ){
+  if(inet_pton( AF_INET, hostname, &rtree->server_addr->sin_addr) < 0 ){
     printf("Erro ao converter IP\n"); //hostname=IP address
     free(addr_cpy);
     close(rtree->sockfd);
@@ -57,7 +62,7 @@ struct rtree_t *rtree_connect(const char *address_port){
   }
 
   //if valid hostname, estabelecer conexao entre client e server
-  if( connect(rtree->sockfd, (struct sockaddr_in *)&rtree->server_addr, sizeof(rtree->server_addr)) < 0 ){
+  if( connect(rtree->sockfd, (struct sockaddr *)&rtree->server_addr, sizeof(rtree->server_addr)) < 0 ){
     printf("Erro ao conectar-se ao servidor\n");
     free(addr_cpy);
     close(rtree->sockfd);
@@ -98,7 +103,7 @@ int rtree_put(struct rtree_t *rtree, struct entry_t *entry){
   send_msg->message->opcode = MESSAGE_T__OPCODE__OP_PUT;
   send_msg->message->c_type = MESSAGE_T__C_TYPE__CT_ENTRY;
   send_msg->message->key = entry->key;
-  send_msg->message->data = entry->value;
+  send_msg->message->data = entry->value->data;
   send_msg->message->data_size = entry->value->datasize;
 
   if( send_msg == NULL){

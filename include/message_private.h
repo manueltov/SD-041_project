@@ -1,3 +1,8 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #ifndef _MESSAGE_PRIVATE_H
 #define _MESSAGE_PRIVATE_H
 

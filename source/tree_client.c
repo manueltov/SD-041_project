@@ -1,21 +1,3 @@
-/*
- * Programa cliente:
- *   Envia uma string sem espaços ao servidor, e recebe o tamanho dessa string.
- * Como compilar:
- *   gcc -Wall -g client.c -o client
- * Como executar:
- *   ./client <hostname>:<porto_servidor>
- */
-
-#include "data.h"
-#include "entry.h"
-#include "tree.h"
-#include <arpa/inet.h>
-#include "message_private.h"
-#include "sdmessage.pb-c.h"
-#include "network_client.h"
-#include "client_stub.h"
-#include "client_stub-private.h"
 
 #include <errno.h>
 

@@ -1,7 +1,11 @@
+// SD-041
+// João Figueiredo, nº 53524
+// Manuel Tovar, nº 49522
+// Mariana Bento, nº 53676
+
 #include "network_client.h"
 #include "client_stub.h"
-#include "client_stub-private.h"
-#include "client_stub.h"
+#include "client_stub_private.h"
 #include "sdmessage.pb-c.h"
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -11,7 +15,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-#include <netdb.h>
 
 /* Esta função deve:
  * - Obter o endereço do servidor (struct sockaddr_in) a base da
@@ -35,18 +38,19 @@ int network_connect(struct rtree_t *rtree){
     return -1;
   }
 
-  struct sockaddr_in *server = rtree->server_addr;
+  struct sockaddr_in *server = (struct sockaddr_in *) rtree->server_addr;
 
   server->sin_family = AF_INET;
-  server->sin_port = htons(rtree->server_addr.sin_port);
+  server->sin_port = htons(rtree->server_addr->sin_port);
+  char *hostname = inet_ntoa(rtree->server_addr->sin_addr);
 
-  if(inet_pton( AF_INET, rtree->server_addr.sin_addr.s_addr, &server->sin_addr) < 1 ){
+  if(inet_pton( AF_INET, hostname, &server->sin_addr) < 1 ){
     printf("Erro ao converter IP\n");
     return -1;
   }
 
   //Estabele conexao
-  if( connect(sockfd, (struct sockaddr_in *)&rtree->server_addr, sizeof(rtree->server_addr)) < 0 ){
+  if( connect(sockfd, (struct sockaddr *)&rtree->server_addr, sizeof(rtree->server_addr)) < 0 ){
     printf("Erro ao conectar-se ao servidor\n");
     close(sockfd);
     return -1;
@@ -64,9 +68,37 @@ int network_connect(struct rtree_t *rtree){
  * - De-serializar a mensagem de resposta;
  * - Retornar a mensagem de-serializada ou NULL em caso de erro.
  */
-struct message_t *network_send_receive(struct rtree_t * rtree,
-                                       struct message_t *msg){
+struct message_t *network_send_receive(struct rtree_t * rtree, struct message_t *msg){
 
+  /*char *msg_buf = NULL;
+  struct message_t *send_msg, *rcv_msg;
+  int size, msgSize, result;
+
+  if(rtree == NULL || msg == NULL){
+    return NULL;
+  }
+
+  int sockfd = rtree->sockfd;
+
+  size = message_t__pack_to_buffer(msg->message, &msg_buf );
+
+  if( size == -1) return NULL; //serializaçao sem sucesso
+
+  //Envia o tamanho da mensagem para o server
+  msgSize = htonl(size);
+  result = write_all(sockfd, (char *) &msgSize, _INT);
+
+  if(result != _INT){
+    perror("Erro ao enviar tamanho da mensagem");
+    close(sockfd);
+    return NULL;
+  }
+
+  //Envia a mensagem serializada para o server
+  result = write_all(sockfd, send_msg, rtree->server_addr->sin_addr);
+
+
+*/
 }
 
 /* A função network_close() fecha a ligação estabelecida por
