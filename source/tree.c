@@ -100,7 +100,6 @@ int tree_put(struct tree_t *tree, char *key, struct data_t *value)
     else
     {
         tree->entry = entry_create(new_key, new_value);
-        return 0;
     }
     return -1;
 }
